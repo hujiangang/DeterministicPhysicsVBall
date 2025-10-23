@@ -49,4 +49,27 @@ public class PhyBaseEntity : MonoBehaviour
         this.phyEntity.orientation = ConversionHelper.MathConverter.Convert(rot);
         // end
     }
+
+    public void SyncUnityTransformWithPhyTransform()
+    {
+        if (this.phyEntity == null) return;
+
+        // 位置.
+        BEPUutilities.Vector3 phyPos = this.phyEntity.position;
+        Vector3 unityPos = ConversionHelper.MathConverter.Convert(phyPos);
+        unityPos -= this.center;
+        this.transform.position = unityPos;
+
+        // 旋转.
+        BEPUutilities.Quaternion phyRot = this.phyEntity.orientation;
+        Quaternion unityRot = ConversionHelper.MathConverter.Convert(phyRot);
+        this.transform.rotation = unityRot;
+    }
+
+    public void LateUpdate()
+    {
+        if (this.phyEntity == null || this.isStatic) return;
+
+        this.SyncUnityTransformWithPhyTransform();
+    }
 }

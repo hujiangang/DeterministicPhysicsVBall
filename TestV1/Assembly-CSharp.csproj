@@ -218,6 +218,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DeactivationManagement\SimulationIslandMember.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\RayCastResult.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\EntityStateManagement\InterpolatedStatesManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\BEPUWrapper\PhySphereEntity.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\ISpringConstraint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\SortAndSweep\Grid2DSortAndSweepQueryAccelerator.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\Manifolds\MobileMeshSphereContactManifold.cs" />
@@ -418,6 +419,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\AngularPlaneControl.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\Manifolds\BoxSphereContactManifold.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\IKDistanceJoint.cs" />
+    <Compile Include="Assets\Scripts\Framework\BEPUWrapper\PhyBaseEntity.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\ContactReducer.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\Manifolds\InstancedMeshConvexContactManifold.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SolverGroups\RevoluteJoint.cs" />
@@ -447,6 +449,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\Manifolds\SphereContactManifold.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\TwoEntity\JointLimits\SwingLimit.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\StaticMeshSpherePairHandler.cs" />
+    <Compile Include="Assets\Scripts\Framework\ConversionHelper\MathConverter.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\IKLimit.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionShapes\MobileMeshShape.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\RigidTransform.cs" />
@@ -496,8 +499,35 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\OtherSpaceStages\IDeferredEventCreator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D9.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\libmojoshader_64.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\freetype6.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\AssimpNet.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.MediaFoundation.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\ATI.TextureConverter.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\nvtt.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D11.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Lidgren.Network.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct2D1.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.RawInput.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XAudio2.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\FixedMath.Net\LICENSE.txt" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.DXGI.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpFont.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Net.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\PVRTexLibWrapper.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.D3DCompiler.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\CppNet.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Assimp64.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\PVRTexLibNET.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XInput.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\FixedMath.Net\README.txt" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\FreeImageNET.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\FreeImage.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Nvidia.TextureTools.dll" />
+    <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Content.Pipeline.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -832,12 +862,96 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D9.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ReportGeneratorMerged">
       <HintPath>Library\PackageCache\com.unity.testtools.codecoverage@1.2.6\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="AssimpNet">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\AssimpNet.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.MediaFoundation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ATI.TextureConverter">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\ATI.TextureConverter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D11.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Lidgren.Network.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct2D1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.RawInput">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.RawInput.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XAudio2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.DXGI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpFont">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpFont.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Net">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.D3DCompiler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CppNet">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\CppNet.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PVRTexLibNET">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\PVRTexLibNET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XInput.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FreeImageNET">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\FreeImageNET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Nvidia.TextureTools">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Nvidia.TextureTools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Content.Pipeline">
+      <HintPath>Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Content.Pipeline.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
