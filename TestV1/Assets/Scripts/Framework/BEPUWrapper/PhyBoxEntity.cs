@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class PhyBoxEntity : PhyBaseEntity
 {
-
-    private void Start()
+    protected virtual void Start()
     {
         BoxCollider boxPhy = this.GetComponent<BoxCollider>();
         float width = boxPhy.size.x;

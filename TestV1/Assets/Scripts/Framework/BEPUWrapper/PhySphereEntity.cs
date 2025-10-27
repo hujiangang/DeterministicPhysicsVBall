@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,9 @@ using UnityEngine;
 public class PhySphereEntity : PhyBaseEntity
 {
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
+
         SphereCollider sphere = this.gameObject.GetComponent<SphereCollider>();
 
         float radius = sphere.radius;
@@ -24,6 +26,8 @@ public class PhySphereEntity : PhyBaseEntity
         {
             this.phyEntity = new BEPUphysics.Entities.Prefabs.Sphere(BEPUutilities.Vector3.Zero, (FixMath.NET.Fix64)radius, (FixMath.NET.Fix64)this.mass);
         }
+
+        Debug.Log($"{name} PhySphereEntity Start: radius={radius}, isStatic={this.isStatic}, mass={this.mass}");
 
         this.AddSelfToPhyWorld();
         this.SyncPhyTransformWithUnityTransform();
