@@ -16,10 +16,11 @@ public class Table : PhyBoxEntity
     {
         if (this.phyEntity != null)
         {
-            int paramIndex = 2;
+            int paramIndex = TestParamater.TestIndex;
             PhyMaterialTestParamater phyMaterialTest = TestParamater.BallMatParamaterList[paramIndex].tableMatParamater;
 
             this.phyEntity.Material = phyMaterialTest.material;
+
         }
     }
 }
