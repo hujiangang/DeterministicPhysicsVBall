@@ -32,8 +32,8 @@ public class Ball : PhySphereEntity
         Vector3 center = this.transform.position;
 
         Vector3 offset = Vector3.zero;
-        float max = 0.2f;
-        float middle = 0.1f;
+        float max = 0.5f;
+        float middle = 0.3f;
 
         switch (cueHitType)
         {
@@ -79,35 +79,35 @@ public class Ball : PhySphereEntity
         
         Vector2 offset = Vector2.zero;
         float max = 0.2f;
-        float middle = 0.1f;
+        float middle = 0.2f;
 
         switch (cueHitType)
         {
             case CueHitType.Center:
                 break;
             case CueHitType.TopSpin:
-                offset = new Vector2(0, radius * max);
+                offset = new Vector2(0, max);
                 break;
             case CueHitType.BackSpin:
-                offset = new Vector2(0, -radius * max);
+                offset = new Vector2(0, -max);
                 break;
             case CueHitType.LeftSpin:
-                offset = new Vector2(-radius * max, 0);
+                offset = new Vector2(-max, 0);
                 break;
             case CueHitType.RightSpin:
-                offset = new Vector2(radius * max, 0);
+                offset = new Vector2(max, 0);
                 break;
             case CueHitType.TopLeft:
-                offset = new Vector2(-radius * middle, radius * middle);
+                offset = new Vector2(-middle, middle);
                 break;
             case CueHitType.TopRight:
-                offset = new Vector2(radius * middle, radius * middle);
+                offset = new Vector2(middle, middle);
                 break;
             case CueHitType.BottomLeft:
-                offset = new Vector2(-radius * middle, -radius * middle);
+                offset = new Vector2(-middle, -middle);
                 break;
             case CueHitType.BottomRight:
-                offset = new Vector2(radius * middle, -radius * middle);
+                offset = new Vector2(middle, -middle);
                 break;
         }
 

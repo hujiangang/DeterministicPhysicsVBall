@@ -28,7 +28,8 @@ public class BEPUPhyMgr : MonoBehaviour
         //速度持续低于上限的时间超过这个值，才真正休眠.
         this.space.DeactivationManager.LowVelocityTimeMinimum = (Fix64)0.8m;
 
-        BEPUphysics.Settings.CollisionResponseSettings.BouncinessVelocityThreshold = (Fix64)0.5m;
+        // 如果撞击速度小于这个阈值，就直接忽略弹性.
+        BEPUphysics.Settings.CollisionResponseSettings.BouncinessVelocityThreshold = (Fix64)0.01;
 
         //this.space.DeactivationManager.Enabled = false; // 先关闭休眠功能，测试时方便观察效果.;
     }

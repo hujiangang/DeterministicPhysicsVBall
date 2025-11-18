@@ -135,17 +135,17 @@ public static class TestParamater
          new TestMatGroup{
             ballMatParamater = new PhyMaterialTestParamater{
                 material = new BEPUphysics.Materials.Material(
-                    staticFriction: (Fix64) 0.25m,
-                    kineticFriction: (Fix64) 0.03m,
+                    staticFriction: (Fix64) 0.3m,
+                    kineticFriction: (Fix64) 0.065m,
                     bounciness: (Fix64) 0.93m),
-                linearDamping = (Fix64) 0.02m,
+                linearDamping = (Fix64) 0.01m,
                 angularDamping = (Fix64) 0.015m
             },
             tableMatParamater = new PhyMaterialTestParamater{
                 material = new BEPUphysics.Materials.Material(
-                     kineticFriction: (Fix64) 0.03m,
+                     kineticFriction: (Fix64) 0.05m,
                      staticFriction: (Fix64) 0.3m,
-                     bounciness: (Fix64) 0.05m)
+                     bounciness: (Fix64) 0.4m)
             },
             cushionMatParamater = new PhyMaterialTestParamater
             {
@@ -183,3 +183,34 @@ public static class TestParamater
         }
     };
 }
+
+// 测试参数.
+/*
+ * 
+        // 效果还OK.
+        new TestMatGroup{
+            ballMatParamater = new PhyMaterialTestParamater{
+                material = new BEPUphysics.Materials.Material(
+                    staticFriction: (Fix64) 0.25m,
+                    kineticFriction: (Fix64) 0.03m,
+                    bounciness: (Fix64) 0.93m),
+                linearDamping = (Fix64) 0.02m,
+                angularDamping = (Fix64) 0.015m
+            },
+            tableMatParamater = new PhyMaterialTestParamater{
+                material = new BEPUphysics.Materials.Material(
+                     kineticFriction: (Fix64) 0.03m,
+                     staticFriction: (Fix64) 0.3m,
+                     bounciness: (Fix64) 0.05m)
+            },
+            cushionMatParamater = new PhyMaterialTestParamater
+            {
+                material = new BEPUphysics.Materials.Material(
+                    staticFriction: (Fix64) 0.25m,
+                    kineticFriction: (Fix64) 0.02m,
+                    bounciness: (Fix64) 0.9m
+                    )
+            }
+        }
+
+*/

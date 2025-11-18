@@ -1,4 +1,5 @@
 using SharpDX.DirectWrite;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -61,8 +62,8 @@ public class Test1 : MonoBehaviour
 
     private System.Collections.IEnumerator DelayedStrike()
     {
-        yield return new WaitForSeconds(2f); 
-        CueballStrike();                    
+        yield return new WaitForSeconds(2f);
+        CueballStrike();
     }
 
     // Update is called once per frame
@@ -71,22 +72,64 @@ public class Test1 : MonoBehaviour
         
     }
 
+    void GenerateMiniCube(Vector3 pos)
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+        // 设置位置
+        cube.transform.position = pos;
+
+        // 修改大小
+        cube.transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+    }
+
+
+    private void TestHitPosGroup()
+    {
+        TestHitPoint( CueHitType.Center);
+
+        TestHitPoint(CueHitType.TopSpin);
+
+        TestHitPoint(CueHitType.BackSpin);
+
+        TestHitPoint(CueHitType.LeftSpin);
+
+        TestHitPoint(CueHitType.RightSpin);
+
+        TestHitPoint(CueHitType.TopLeft);
+
+        TestHitPoint(CueHitType.TopRight);
+
+        TestHitPoint(CueHitType.BottomLeft);
+
+        TestHitPoint(CueHitType.BottomRight);
+
+    }
+
+    private void TestHitPoint(CueHitType cueHitType)
+    {
+        Vector3 dir = (this.destball.transform.position - this.cueball.transform.position).normalized;
+        Vector3 impulse = dir * 0.1f;
+
+        Vector2 offset = cueball.GetCueHitPosOffSet(cueHitType);
+
+        Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -cueball.radius);
+
+        Vector3 hitPos = cueball.GetSurfacePoint(pos);
+
+        GenerateMiniCube(hitPos);
+    }
+
     public void CueballStrike()
     {
 
         Vector3 dir = (this.destball.transform.position - this.cueball.transform.position).normalized;
         Vector3 impulse = dir * 0.1f;
 
-        Vector3 center = this.cueball.transform.position;
+        Vector2 offset = cueball.GetCueHitPosOffSet(CueHitType.TopLeft);
+       
+        Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -cueball.radius);
 
-        float max = 0.02f;
-        float middle = 0.1f;
-
-        Vector2 offset = cueball.GetCueHitPosOffSet2(CueHitType.BackSpin);
-        offset = new Vector2(0, -max );
-        Vector3 pos = cueball.transform.TransformPoint(-offset.x, offset.y, -cueball.radius);
-
-        //Vector3 hitPos = center + cueball.GetCueHitPosOffSet( CueHitType.TopSpin);
         Vector3 hitPos = cueball.GetSurfacePoint(pos);
 
         Debug.DrawLine(hitPos, this.destball.transform.position, Color.red, 5.0f);
