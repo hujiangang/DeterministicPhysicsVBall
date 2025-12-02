@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\Test\Ball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DataStructures\BoundingBoxTree.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\Hierarchies\DynamicHierarchyNode.cs" />
+    <Compile Include="Assets\Scripts\Framework\CameraTopView.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\ISolverSettings.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\Control.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\BoundingBox.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\TriangleConvexPairHandler.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SolverGroups\WeldJoint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\EntityStateManagement\EntityStateWriteBuffer.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\Cuestick.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Paths\ConstantAngularSpeedCurve.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\SpherePairHandler.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SolverUpdateable.cs" />
@@ -366,6 +368,8 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\ResourceManagement\BufferPools.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\Vector2.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionShapes\ConvexShapes\BoxShape.cs" />
+    <Compile Include="Assets\Scripts\Framework\PhyEntityManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\BEPUWrapper\PhyCompoundBoxEntity.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DataStructures\TransformableMeshData.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\RevoluteControl.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\CollisionAlgorithms\SphereTester.cs" />
@@ -487,6 +491,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionShapes\ConvexShapes\CylinderShape.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionShapes\ConvexShapes\TransformableShape.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\TwoEntity\Joints\TwistJoint.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\CuestickManager.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\ResourceManagement\LockingResourcePool.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\Toolbox.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\Manifolds\StaticMeshConvexContactManifold.cs" />

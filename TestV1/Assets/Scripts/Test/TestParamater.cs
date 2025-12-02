@@ -143,8 +143,8 @@ public static class TestParamater
             },
             tableMatParamater = new PhyMaterialTestParamater{
                 material = new BEPUphysics.Materials.Material(
-                     kineticFriction: (Fix64) 0.05m,
-                     staticFriction: (Fix64) 0.3m,
+                     kineticFriction: (Fix64) 0.2m,
+                     staticFriction: (Fix64) 0.015m,
                      bounciness: (Fix64) 0.4m)
             },
             cushionMatParamater = new PhyMaterialTestParamater

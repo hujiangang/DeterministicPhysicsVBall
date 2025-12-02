@@ -97,16 +97,14 @@ namespace ConversionHelper
         //Matrix
         public static Matrix4x4 Convert(BEPUutilities.Matrix matrix)
         {
-            
-            Matrix4x4 toReturn;
-            Convert(ref matrix, out toReturn);
+
+            Convert(ref matrix, out Matrix4x4 toReturn);
             return toReturn;
         }
 
         public static BEPUutilities.Matrix Convert(Matrix4x4 matrix)
         {
-            BEPUutilities.Matrix toReturn;
-            Convert(ref matrix, out toReturn);
+            Convert(ref matrix, out BEPUutilities.Matrix toReturn);
             return toReturn;
         }
 
@@ -160,8 +158,7 @@ namespace ConversionHelper
 
         public static Matrix4x4 Convert(BEPUutilities.Matrix3x3 matrix)
         {
-            Matrix4x4 toReturn;
-            Convert(ref matrix, out toReturn);
+            Convert(ref matrix, out Matrix4x4 toReturn);
             return toReturn;
         }
 

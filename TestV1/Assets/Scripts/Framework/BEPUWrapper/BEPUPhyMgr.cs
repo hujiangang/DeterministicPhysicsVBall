@@ -9,7 +9,10 @@ public class BEPUPhyMgr : MonoBehaviour
     public static BEPUPhyMgr Instance;
 
 
-    public void Awake()
+    /// <summary>
+    /// 初始化BEPU物理管理器
+    /// </summary>
+    public void Initialize()
     {
         if (BEPUPhyMgr.Instance != null)
         {
@@ -32,6 +35,11 @@ public class BEPUPhyMgr : MonoBehaviour
         BEPUphysics.Settings.CollisionResponseSettings.BouncinessVelocityThreshold = (Fix64)0.01;
 
         //this.space.DeactivationManager.Enabled = false; // 先关闭休眠功能，测试时方便观察效果.;
+    }
+    
+    public void Awake()
+    {
+        Initialize();
     }
 
     // Start is called before the first frame update
