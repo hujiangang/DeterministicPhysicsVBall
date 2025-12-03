@@ -16,7 +16,7 @@ public class PhyEntityManager : MonoBehaviour
     /// <summary>
     /// 物理实体映射表：Unity对象 -> 物理实体数据
     /// </summary>
-    private Dictionary<GameObject, PhyEntityData> phyEntityMap = new Dictionary<GameObject, PhyEntityData>();
+    private Dictionary<GameObject, PhyEntityData> phyEntityMap = new();
     
     /// <summary>
     /// 物理实体数据类

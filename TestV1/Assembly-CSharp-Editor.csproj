@@ -63,7 +63,7 @@
     <Compile Include="Assets\Scripts\Framework\Editor\PhyEntityManagerEditor.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\CameraTopViewEditor.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\PhyAutoAttachEditor.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\CuestickManagerEditor.cs" />
+    <Compile Include="Assets\Scripts\Framework\Editor\GamePlayEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Cuestick : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private Transform parent;
+
+    void Awake()
     {
+        parent = transform.parent;
+    }
+
+
+    public void Rotate(float angle)
+    {
+        Vector3 rotation = angle * Vector3.up;
+        parent.Rotate(rotation, Space.World);
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AimAt(Vector3 pos)
     {
-        
+        Rotate(Vector3.SignedAngle(parent.right, pos - parent.position, Vector3.up));
     }
 }

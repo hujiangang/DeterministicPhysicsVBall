@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : PhyBoxEntity
+
+namespace Test
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    public class Table : PhyBoxEntity
     {
-        base.Start();
-
-        AddTestMaterial();
-    }
-
-    public void AddTestMaterial()
-    {
-        if (this.phyEntity != null)
+        // Start is called before the first frame update
+        protected override void Start()
         {
-            int paramIndex = TestParamater.TestIndex;
-            PhyMaterialTestParamater phyMaterialTest = TestParamater.BallMatParamaterList[paramIndex].tableMatParamater;
+            base.Start();
 
-            this.phyEntity.Material = phyMaterialTest.material;
+            AddTestMaterial();
+        }
 
+        public void AddTestMaterial()
+        {
+            if (this.phyEntity != null)
+            {
+                int paramIndex = TestParamater.TestIndex;
+                PhyMaterialTestParamater phyMaterialTest = TestParamater.BallMatParamaterList[paramIndex].tableMatParamater;
+
+                this.phyEntity.Material = phyMaterialTest.material;
+
+            }
         }
     }
 }
+
