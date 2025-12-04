@@ -118,10 +118,10 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\CollisionAlgorithms\TrianglePairTester.cs" />
     <Compile Include="Assets\Scripts\Test\Ball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DataStructures\BoundingBoxTree.cs" />
-    <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\Hierarchies\DynamicHierarchyNode.cs" />
-    <Compile Include="Assets\Scripts\Framework\CameraTopView.cs" />
-    <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\ISolverSettings.cs" />
     <Compile Include="Assets\Scripts\GamePlay\GameController.cs" />
+    <Compile Include="Assets\Scripts\Framework\CameraTopView.cs" />
+    <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\Hierarchies\DynamicHierarchyNode.cs" />
+    <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\ISolverSettings.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\Control.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\BoundingBox.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Paths\FiniteDifferenceSpline3D.cs" />

@@ -7,11 +7,6 @@ using UnityEditor;
 public class CameraTopViewEditor
 {
     /// <summary>
-    /// 桌子标签
-    /// </summary>
-    private const string TABLE_TAG = "Table";
-    
-    /// <summary>
     /// 默认摄像机高度
     /// </summary>
     private const float DEFAULT_CAMERA_HEIGHT = 10f;
@@ -40,7 +35,7 @@ public class CameraTopViewEditor
         }
         
         // 查找桌子对象
-        GameObject table = GameObject.FindWithTag(TABLE_TAG);
+        GameObject table = GameObject.FindWithTag(GameTags.GetTagName(GameTag.Table));
         Vector3 tableCenter = Vector3.zero;
         
         // 如果找到桌子，使用桌子的中心
@@ -51,7 +46,7 @@ public class CameraTopViewEditor
         }
         else
         {
-            Debug.LogWarning("Table not found with tag: " + TABLE_TAG + ", using default position (0,0,0)");
+            Debug.LogWarning("Table not found with tag: " + GameTags.GetTagName(GameTag.Table) + ", using default position (0,0,0)");
             
             // 尝试查找 BasicTable 预制体实例
             GameObject basicTable = GameObject.Find("BasicTable");
@@ -80,11 +75,10 @@ public class CameraTopViewEditor
             return;
         
         // 摄像机位置：从目标中心正上方俯视
-        camera.transform.position = new Vector3(targetCenter.x, DEFAULT_CAMERA_HEIGHT, targetCenter.z);
         
         // 摄像机旋转：向下俯视，保持水平
-        camera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        
+        camera.transform.SetPositionAndRotation(new Vector3(targetCenter.x, DEFAULT_CAMERA_HEIGHT, targetCenter.z), Quaternion.Euler(90f, 0f, 0f));
+
         // 设置摄像机视野，确保能看到整个桌子
         camera.fieldOfView = 60f;
         
@@ -109,7 +103,7 @@ public class CameraTopViewEditor
         }
         
         // 查找桌子对象
-        GameObject table = GameObject.FindWithTag(TABLE_TAG);
+        GameObject table = GameObject.FindWithTag(GameTags.GetTagName(GameTag.Table));
         if (table == null)
         {
             table = GameObject.Find("BasicTable");
@@ -139,15 +133,14 @@ public class CameraTopViewEditor
         float cameraDistance = tableSize * 0.5f;
         
         // 设置摄像机位置
-        mainCamera.transform.position = new Vector3(
+        
+        // 设置摄像机旋转
+        mainCamera.transform.SetPositionAndRotation(new Vector3(
             tableBounds.center.x, 
             cameraHeight, 
             tableBounds.center.z
-        );
-        
-        // 设置摄像机旋转
-        mainCamera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        
+        ), Quaternion.Euler(90f, 0f, 0f));
+
         // 调整摄像机视野，确保能看到整个桌子
         float requiredFOV = 2 * Mathf.Atan2(tableSize * 0.5f, cameraHeight) * Mathf.Rad2Deg;
         mainCamera.fieldOfView = Mathf.Clamp(requiredFOV, 30f, 90f);

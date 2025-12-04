@@ -90,6 +90,15 @@ public class GameController : MonoBehaviour
             prevMPos = Input.mousePosition;
         }
 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            GameEvents.InvokeBasicEvent(GameBasicEvent.PullCuestick);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            GameEvents.InvokeBasicEvent(GameBasicEvent.ReleaseCuestick);
+        }
         
     }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum GameBasicEvent
 {
-    CueballHitBall,
+    PullCuestick,
+    ReleaseCuestick,
 }
 
 public static class GameEvents
@@ -15,12 +16,21 @@ public static class GameEvents
     
     public static void RegisterBasicEvent(GameBasicEvent @event, Action action)
     {
-        BasicEvents[@event] += action;
+        if (!BasicEvents.ContainsKey(@event))
+        {
+            BasicEvents.Add(@event, action);
+        } 
+        else{
+            BasicEvents[@event] += action;    
+        }
     }
 
     public static void UnregisterBasicEvent(GameBasicEvent @event, Action action)
     {
-        BasicEvents[@event] -= action;
+        if (BasicEvents.ContainsKey(@event))
+        {
+            BasicEvents[@event] -= action;
+        }
     }
 
     public static void InvokeBasicEvent(GameBasicEvent @event)
