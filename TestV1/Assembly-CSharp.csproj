@@ -118,6 +118,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\CollisionAlgorithms\TrianglePairTester.cs" />
     <Compile Include="Assets\Scripts\Test\Ball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DataStructures\BoundingBoxTree.cs" />
+    <Compile Include="Assets\Scripts\UI\UIGamePlay.cs" />
     <Compile Include="Assets\Scripts\GamePlay\GameController.cs" />
     <Compile Include="Assets\Scripts\Framework\CameraTopView.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\Hierarchies\DynamicHierarchyNode.cs" />
@@ -513,22 +514,37 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\OtherSpaceStages\IDeferredEventCreator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D9.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\libmojoshader_64.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\freetype6.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\AssimpNet.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.MediaFoundation.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\ATI.TextureConverter.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\nvtt.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct3D11.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Lidgren.Network.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.Direct2D1.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.RawInput.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XAudio2.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\FixedMath.Net\LICENSE.txt" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.DXGI.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpFont.dll" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Net.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\PVRTexLibWrapper.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.D3DCompiler.dll" />
@@ -537,11 +553,17 @@
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\PVRTexLibNET.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\SharpDX.XInput.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\FixedMath.Net\README.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\FreeImageNET.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\FreeImage.dll" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\Nvidia.TextureTools.dll" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Scripts\3rd\BEPU\Dependencies\MonoGame\Tools\MonoGame.Framework.Content.Pipeline.dll" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
