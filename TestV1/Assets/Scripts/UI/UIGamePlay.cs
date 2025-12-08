@@ -410,44 +410,15 @@ public class UIGamePlay : MonoBehaviour
         // 更新当前杆法描述
         UpdateCueActionDes(actionName);
         
+        // 触发杆法类型变化事件
+        GameEvents.InvokeEvent<CueHitType>(GameBasicEvent.CueHitTypeChanged, hitType);
+        
         // 隐藏面板
         HidePanel();
         
         // 这里可以添加实际的杆法处理逻辑
         // 例如：设置当前选中的杆法，或者调用其他组件的方法
         // Example: someComponent.SetCueHitType(hitType);
-
-        // 可以直接使用枚举进行逻辑判断
-        switch (hitType)
-        {
-            case CueHitType.Center:
-                // 中杆逻辑
-                break;
-            case CueHitType.TopSpin:
-                // 高杆逻辑
-                break;
-            case CueHitType.BackSpin:
-                // 低杆逻辑
-                break;
-            case CueHitType.LeftSpin:
-                // 左杆逻辑
-                break;
-            case CueHitType.RightSpin:
-                // 右杆逻辑
-                break;
-            case CueHitType.TopLeft:
-                // 高左逻辑
-                break;
-            case CueHitType.TopRight:
-                // 高右逻辑
-                break;
-            case CueHitType.BottomLeft:
-                // 低左逻辑
-                break;
-            case CueHitType.BottomRight:
-                // 低右逻辑
-                break;
-        }
     }
     
     /// <summary>

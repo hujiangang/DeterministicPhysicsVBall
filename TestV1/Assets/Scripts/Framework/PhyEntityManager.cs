@@ -120,6 +120,7 @@ public class PhyEntityManager : MonoBehaviour
         
         // 检查BoxCollider
         BoxCollider[] boxColliders = obj.GetComponents<BoxCollider>();
+        PhysicMaterial mat = null;
         if (boxColliders.Length > 0)
         {
             if (boxColliders.Length == 1)
@@ -130,7 +131,11 @@ public class PhyEntityManager : MonoBehaviour
                 float height = boxCollider.size.y;
                 float length = boxCollider.size.z;
                 center = boxCollider.center;
-                
+
+                if (boxCollider.material != null)
+                {
+                    mat = boxCollider.material;
+                }
                 // 创建Box实体
                 if (isStatic)
                 {
@@ -150,26 +155,31 @@ public class PhyEntityManager : MonoBehaviour
             else
             {
                 // 多个BoxCollider，创建复合实体
-                List<BEPUphysics.CollisionShapes.CompoundShapeEntry> shapeEntries = new List<BEPUphysics.CollisionShapes.CompoundShapeEntry>();
+                List<BEPUphysics.CollisionShapes.CompoundShapeEntry> shapeEntries = new();
                 
                 foreach (BoxCollider boxCollider in boxColliders)
                 {
                     float width = boxCollider.size.x;
                     float height = boxCollider.size.y;
                     float length = boxCollider.size.z;
+
+                    if (boxCollider.material != null)
+                    {
+                        mat = boxCollider.material;
+                    }
                     
                     // 创建BoxShape
-                    BEPUphysics.CollisionShapes.ConvexShapes.BoxShape boxShape = new BEPUphysics.CollisionShapes.ConvexShapes.BoxShape(
+                    BEPUphysics.CollisionShapes.ConvexShapes.BoxShape boxShape = new(
                         (FixMath.NET.Fix64)width, (FixMath.NET.Fix64)height, (FixMath.NET.Fix64)length);
                     
                     // 创建CompoundShapeEntry
-                    BEPUutilities.Vector3 localPosition = new BEPUutilities.Vector3(
+                    BEPUutilities.Vector3 localPosition = new(
                         (FixMath.NET.Fix64)boxCollider.center.x, 
                         (FixMath.NET.Fix64)boxCollider.center.y, 
                         (FixMath.NET.Fix64)boxCollider.center.z);
                     
-                    BEPUutilities.RigidTransform localTransform = new BEPUutilities.RigidTransform(localPosition);
-                    BEPUphysics.CollisionShapes.CompoundShapeEntry shapeEntry = new BEPUphysics.CollisionShapes.CompoundShapeEntry(boxShape, localTransform);
+                    BEPUutilities.RigidTransform localTransform = new(localPosition);
+                    BEPUphysics.CollisionShapes.CompoundShapeEntry shapeEntry = new(boxShape, localTransform);
                     shapeEntries.Add(shapeEntry);
                 }
                 
@@ -191,6 +201,11 @@ public class PhyEntityManager : MonoBehaviour
             SphereCollider sphereCollider = obj.GetComponent<SphereCollider>();
             float radius = sphereCollider.radius;
             center = sphereCollider.center;
+
+            if (sphereCollider.material != null)
+            {
+                mat = sphereCollider.material;
+            }
             
             // 创建Sphere实体
             if (isStatic)
@@ -213,12 +228,22 @@ public class PhyEntityManager : MonoBehaviour
             BEPUPhyMgr.Instance.space.Add(phyEntity);
             
             // 创建物理实体数据
-            PhyEntityData data = new PhyEntityData()
+            PhyEntityData data = new()
             {
                 PhyEntity = phyEntity,
                 Center = center,
                 IsStatic = isStatic
             };
+
+
+            if (mat != null){
+                phyEntity.Material = new BEPUphysics.Materials.Material()
+                {
+                    KineticFriction = (FixMath.NET.Fix64)mat.dynamicFriction,
+                    StaticFriction = (FixMath.NET.Fix64)mat.staticFriction,
+                    Bounciness = (FixMath.NET.Fix64)mat.bounciness,
+                };
+            }
             
             // 添加到映射表
             phyEntityMap.Add(obj, data);

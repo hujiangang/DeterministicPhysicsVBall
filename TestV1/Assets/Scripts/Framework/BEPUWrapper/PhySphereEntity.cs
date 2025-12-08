@@ -22,6 +22,13 @@ public class PhySphereEntity : PhyBaseEntity
         this.center = col.center;
         this.phyMat = col.material;
         this.isTrigger = col.isTrigger;
+        
+        if (gameObject.TryGetComponent<Rigidbody>(out var rigidbody))
+        {
+            if (rigidbody.mass > 0){
+                this.mass = rigidbody.mass;
+            }
+        }
 
         if (this.isStatic)
         {
@@ -30,6 +37,15 @@ public class PhySphereEntity : PhyBaseEntity
         else
         {
             this.phyEntity = new BEPUphysics.Entities.Prefabs.Sphere(BEPUutilities.Vector3.Zero, (Fix64)radius, (FixMath.NET.Fix64)this.mass);
+        }
+
+        if (phyMat != null){
+            phyEntity.material = new BEPUphysics.Materials.Material()
+            {
+                KineticFriction = (Fix64)phyMat.dynamicFriction,
+                StaticFriction = (Fix64)phyMat.staticFriction,
+                Bounciness = (Fix64)phyMat.bounciness,
+            };
         }
 
         Debug.Log($"{name} PhySphereEntity Start: radius={radius}, isStatic={this.isStatic}, mass={this.mass}");
