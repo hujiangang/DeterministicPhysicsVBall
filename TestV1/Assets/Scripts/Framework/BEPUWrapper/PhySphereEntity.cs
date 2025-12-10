@@ -7,9 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class PhySphereEntity : PhyBaseEntity
 {
-    public float radius;
+    public static float radius;
 
-    protected SphereCollider col;
+    protected static SphereCollider col;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -39,7 +39,7 @@ public class PhySphereEntity : PhyBaseEntity
             this.phyEntity = new BEPUphysics.Entities.Prefabs.Sphere(BEPUutilities.Vector3.Zero, (Fix64)radius, (FixMath.NET.Fix64)this.mass);
         }
 
-        if (phyMat != null){
+        if (phyMat != null) {
             phyEntity.material = new BEPUphysics.Materials.Material()
             {
                 KineticFriction = (Fix64)phyMat.dynamicFriction,

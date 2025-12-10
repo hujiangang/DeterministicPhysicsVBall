@@ -162,6 +162,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SingleEntity\MaximumAngularVelocityConstraint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\NarrowPhase.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionShapes\CollisionShape.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\Base\Cueball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\TriangleConvexPairHandler.cs" />
     <Compile Include="Assets\Scripts\GamePlay\Cuestick.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SolverGroups\WeldJoint.cs" />
@@ -313,6 +314,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Paths\CurveEndpointBehavior.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\CompoundPairHandler.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\Matrix3x3.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\Base\Ball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Settings\CollisionResponseSettings.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\TwoEntity\TwoEntityConstraint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\OtherSpaceStages\IForceUpdateable.cs" />
@@ -364,7 +366,6 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\CompoundTerrainPairHandler.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\UpdateableSystems\IBeforeSolverUpdateable.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\DeactivationManagement\ISimulationIslandMemberOwner.cs" />
-    <Compile Include="Assets\Scripts\GamePlay\Cueball.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Character\StepManager.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\TwoEntity\Motors\AngularMotor.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\PhysicsChecker.cs" />

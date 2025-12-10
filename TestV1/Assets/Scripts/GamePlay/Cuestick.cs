@@ -43,6 +43,7 @@ public class Cuestick : MonoBehaviour
 
     private float power = 0f;
     private readonly float maxPullDistance = 0.5f;
+    private CueHitType cueHitType = CueHitType.Center;
 
     void Awake()
     {
@@ -62,6 +63,20 @@ public class Cuestick : MonoBehaviour
         Rotate(Vector3.SignedAngle(parent.right, pos - parent.position, Vector3.up));
     }
 
+    private void Strike(float power){
+
+        Vector3 rawForce = power * parent.right;
+        Vector3 offsetLocal = Ball.GetCueHitPosOffSet(cueHitType); 
+        Vector3 pos = parent.TransformPoint(-Ball.radius, offsetLocal.y, -offsetLocal.x);
+        pos = Ball.GetSurfacePoint(pos);
+
+        Vector3 spinAdjustedForce = rawForce + parent.position - pos;
+        spinAdjustedForce = spinAdjustedForce.normalized * rawForce.magnitude;
+
+        Debug.DrawLine(pos, pos + spinAdjustedForce, Color.red, 10);
+        GameEvents.InvokeEvent(GameBasicEvent.Strike, pos, spinAdjustedForce);
+    }
+
 
     public void OnEnable()
     {
@@ -75,6 +90,7 @@ public class Cuestick : MonoBehaviour
     {
         // 处理杆法类型变化
         Debug.Log("杆法类型变化: " + cueHitType);
+        this.cueHitType = cueHitType;
     }
 
     private void PullCuestick()
@@ -92,6 +108,7 @@ public class Cuestick : MonoBehaviour
     public void ReleaseCuestick()
     {
         transform.Translate(maxPullDistance * power * Vector3.right, Space.Self);
+        Strike(power);
         power = 0f;
     }
 

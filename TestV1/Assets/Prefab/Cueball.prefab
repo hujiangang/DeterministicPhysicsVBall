@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 1289263006328224072}
   - component: {fileID: 1999282124794347257}
   - component: {fileID: 3939069459572005923}
-  - component: {fileID: 8928513971604449151}
   m_Layer: 8
   m_Name: Cueball
   m_TagString: Untagged
@@ -166,18 +165,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &8928513971604449151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6325266974283120033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e748a94f665a2f47b0f03f18c841a48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mass: 170
-  isStatic: 0
-  radius: 0.035

@@ -163,7 +163,7 @@ public class PhyEntityManager : MonoBehaviour
                     float height = boxCollider.size.y;
                     float length = boxCollider.size.z;
 
-                    if (boxCollider.material != null)
+                    if (boxCollider.material != null && mat == null)
                     {
                         mat = boxCollider.material;
                     }

@@ -51,6 +51,6 @@ public class BEPUPhyMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.space.Update();
+        //this.space.Update();
     }
 }

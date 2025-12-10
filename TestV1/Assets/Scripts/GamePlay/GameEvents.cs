@@ -8,6 +8,7 @@ public enum GameBasicEvent
     PullCuestick,
     ReleaseCuestick,
     CueHitTypeChanged,
+    Strike,
 }
 
 /// <summary>

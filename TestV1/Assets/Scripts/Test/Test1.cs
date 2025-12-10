@@ -81,7 +81,7 @@ namespace Test
 
             Vector2 offset = cueball.GetCueHitPosOffSet(cueHitType);
 
-            Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -cueball.radius);
+            Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -Ball.radius);
 
             Vector3 hitPos = cueball.GetSurfacePoint(pos);
 
@@ -96,7 +96,7 @@ namespace Test
 
             Vector2 offset = cueball.GetCueHitPosOffSet(CueHitType.BackSpin);
         
-            Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -cueball.radius);
+            Vector3 pos = cueball.transform.TransformPoint(offset.x, offset.y, -Ball.radius);
 
             Vector3 hitPos = cueball.GetSurfacePoint(pos);
 
@@ -111,7 +111,7 @@ namespace Test
         // 假设 destball 是目标位置
         public void Test1CueballStrike()
         {
-            float r = cueball.radius; // 从 BEPU 获取物理半径
+            float r = Ball.radius; // 从 BEPU 获取物理半径
 
             // 1. 计算偏移 (x:左右, y:高低)
             Vector3 offsetLocal = cueball.GetCueHitPosOffSet(CueHitType.LeftSpin); // 比如打左塞
