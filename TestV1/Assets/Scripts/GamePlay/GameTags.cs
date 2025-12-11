@@ -6,6 +6,7 @@ public enum GameTag
     Cueball,
     Ball,
     Table,
+    Rack,
 }
 
 
@@ -17,6 +18,7 @@ public static class GameTags
         { GameTag.Cueball, "Cueball" },
         { GameTag.Ball, "Ball" },
         { GameTag.Table, "Table" },
+        { GameTag.Rack, "Rack" },
     };
     
     public static string GetTagName(GameTag tag)

@@ -403,7 +403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -699,7 +699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0.17
   isStatic: 0
-  radius: 0
 --- !u!135 &1877743018
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -828,7 +827,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0.17
   isStatic: 0
-  radius: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

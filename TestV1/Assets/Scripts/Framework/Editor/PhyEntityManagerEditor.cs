@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
+using Microsoft.Xna.Framework;
+using System.Linq;
 
 /// <summary>
 /// 物理实体管理器编辑器工具
@@ -139,6 +141,71 @@ public class PhyEntityManagerEditor
                 "PhyEntityManager not found!", "OK");
         }
     }
+
+
+
+    /// <summary>
+    /// 挂载脚本.
+    /// </summary>
+    [MenuItem("Tools/Ball/Attach Script", false, 10)]
+    public static void BallAttachScript()
+    {
+        GameObject selectedObj = Selection.activeGameObject;
+        if (selectedObj == null)
+        {
+            EditorUtility.DisplayDialog("AttachScript", 
+                "Please select a GameObject!", "OK");
+            return;
+        }
+        int count = 0;
+        GameObject[] ballObjs= selectedObj.GetComponentsInChildren<Transform>(true)
+            .Where(t => t != selectedObj.transform)     
+            .Where(t => t.name.Contains("Ball"))    
+            .Select(t => t.gameObject)
+            .ToArray();               
+        
+        foreach (GameObject obj in ballObjs){
+            if (!obj.TryGetComponent<Ball>(out _)){
+                count++;
+                obj.AddComponent<Ball>();
+            }
+        }
+        
+        EditorUtility.DisplayDialog("AttachScript", 
+            $"Attach {count} object ", "OK");
+    }
+    
+    /// <summary>
+    /// 移除脚本.
+    /// </summary>
+    [MenuItem("Tools/Ball/Remove Script", false, 11)]
+    public static void BallRemoveScript()
+    {
+        GameObject selectedObj = Selection.activeGameObject;
+        if (selectedObj == null)
+        {
+            EditorUtility.DisplayDialog("AttachScript", 
+                "Please select a GameObject!", "OK");
+            return;
+        }
+        int count = 0;
+        GameObject[] ballObjs = selectedObj.GetComponentsInChildren<Transform>(true)
+            .Where(t => t != selectedObj.transform)     
+            .Where(t => t.name.Contains("Ball"))    
+            .Select(t => t.gameObject)
+            .ToArray();               
+        
+        foreach (GameObject obj in ballObjs){
+            if (obj.TryGetComponent(out Ball ball)){
+                count++;
+                Object.DestroyImmediate(ball);
+            }
+        }
+        
+        EditorUtility.DisplayDialog("RemoveScript", 
+            $"Remove {count} object ", "OK");
+    }
+
     
     /// <summary>
     /// 验证菜单项是否可用

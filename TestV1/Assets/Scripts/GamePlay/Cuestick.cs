@@ -43,6 +43,7 @@ public class Cuestick : MonoBehaviour
 
     private float power = 0f;
     private readonly float maxPullDistance = 0.5f;
+    private readonly float maxPower = 0.1f;
     private CueHitType cueHitType = CueHitType.Center;
 
     void Awake()
@@ -65,7 +66,7 @@ public class Cuestick : MonoBehaviour
 
     private void Strike(float power){
 
-        Vector3 rawForce = power * parent.right;
+        Vector3 rawForce = maxPower * power * parent.right;
         Vector3 offsetLocal = Ball.GetCueHitPosOffSet(cueHitType); 
         Vector3 pos = parent.TransformPoint(-Ball.radius, offsetLocal.y, -offsetLocal.x);
         pos = Ball.GetSurfacePoint(pos);

@@ -39,6 +39,12 @@ public class PhySphereEntity : PhyBaseEntity
             this.phyEntity = new BEPUphysics.Entities.Prefabs.Sphere(BEPUutilities.Vector3.Zero, (Fix64)radius, (FixMath.NET.Fix64)this.mass);
         }
 
+        if (gameObject.TryGetComponent(out rigidbody))
+        {
+            phyEntity.LinearDamping = (Fix64)rigidbody.drag;
+            phyEntity.AngularDamping = (Fix64)rigidbody.angularDrag;
+        }
+
         if (phyMat != null) {
             phyEntity.material = new BEPUphysics.Materials.Material()
             {
@@ -48,7 +54,7 @@ public class PhySphereEntity : PhyBaseEntity
             };
         }
 
-        Debug.Log($"{name} PhySphereEntity Start: radius={radius}, isStatic={this.isStatic}, mass={this.mass}");
+        Debug.Log($"{name} PhySphereEntity Start: radius={radius}, isStatic={this.isStatic}, mass={this.mass}, LinearDamping:{phyEntity.LinearDamping}, AngularDamping : {phyEntity.AngularDamping}");
 
         this.AddSelfToPhyWorld();
         this.SyncPhyTransformWithUnityTransform();

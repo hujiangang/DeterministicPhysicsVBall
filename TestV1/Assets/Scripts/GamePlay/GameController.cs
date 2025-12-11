@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum GameLayers
@@ -8,6 +9,8 @@ public enum GameLayers
     Rails = 7,
     Pockets = 8,
     TableBounds = 9,
+    Cueball = 10,
+    Balls = 11,
 }
 
 
@@ -41,6 +44,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        //FindObjectBalls();
         FindCuestickAndCueball();
         mainCam = Camera.main;
 
@@ -158,6 +162,25 @@ public class GameController : MonoBehaviour
 
         tableClicked = false;
         cuestickRotated = false;
+    }
+
+    private void FindObjectBalls(){
+        GameObject rack = GameObject.FindWithTag(GameTags.GetTagName(GameTag.Rack));
+        if (rack == null){
+            Debug.LogError("Rack not found!");
+            return;
+        }
+        GameObject[] ballObjs= rack.GetComponentsInChildren<Transform>(true)
+            .Where(t => t != rack.transform)     
+            .Where(t => t.name.Contains("Ball"))    
+            .Select(t => t.gameObject)
+            .ToArray();               
+        
+        foreach (GameObject obj in ballObjs){
+            if (!obj.TryGetComponent<Ball>(out _)){
+                obj.AddComponent<Ball>();
+            }
+        }
     }
 
     /// <summary>
