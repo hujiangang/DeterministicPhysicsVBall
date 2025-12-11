@@ -33,10 +33,12 @@ public class GameController : MonoBehaviour
     private bool tableClicked;
 
     private bool clickAboveBall, clickRightOfBall;
-    private bool cuestickRotated;
+    private bool cuestickRotated, rotateCuestick;
+
 
     private Vector3 prevMPos;
 
+    private Ball clickedBall;
 
 
     private delegate void UserInput();
@@ -88,7 +90,7 @@ public class GameController : MonoBehaviour
         }
 
         if (Input.GetMouseButton(0)){
-            if (cuestickRotated){
+            if (rotateCuestick){
                 RotateCuestick(Input.mousePosition);
             }
             prevMPos = Input.mousePosition;
@@ -138,12 +140,14 @@ public class GameController : MonoBehaviour
         prevMPos = Input.mousePosition;
         if (Physics.Raycast(mainCam.ScreenPointToRay(pointerPos), out RaycastHit hit))
         {
-            if (hit.collider.gameObject.layer == (int)GameLayers.TableBounds){
+            Debug.Log($"Hit: {hit.collider.gameObject.name}");
+            if (hit.collider.gameObject.layer == (int)GameLayers.Table){
                 tableClicked = true;
             }
+            clickedBall = hit.collider.GetComponent<Ball>();
         }
 
-        cuestickRotated = true;
+        rotateCuestick = true;
         Vector3 ballScreenPos = mainCam.WorldToScreenPoint(cueball.transform.position);
         clickAboveBall = pointerPos.y > ballScreenPos.y;
         clickRightOfBall = pointerPos.x > ballScreenPos.x;
@@ -155,12 +159,18 @@ public class GameController : MonoBehaviour
     /// <param name="pointerPos"></param>
     private void HandlePointerUp(Vector3 pointerPos){
 
-        if (!cuestickRotated && tableClicked){
-            pointerPos.z = mainCam.transform.position.y - cueball.transform.position.y;
-            cuestick.AimAt(pointerPos);
+        if (!cuestickRotated && clickedBall != null) {
+            cuestick.AimAt(clickedBall.transform.position);
         }
 
+        if (!cuestickRotated && tableClicked){
+            pointerPos.z = mainCam.transform.position.y - cueball.transform.position.y;
+            cuestick.AimAt(mainCam.ScreenToWorldPoint(pointerPos));
+        }
+        
+        clickedBall = null;
         tableClicked = false;
+        rotateCuestick = false;
         cuestickRotated = false;
     }
 
