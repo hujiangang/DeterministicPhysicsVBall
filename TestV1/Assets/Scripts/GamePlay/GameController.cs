@@ -44,6 +44,10 @@ public class GameController : MonoBehaviour
     private delegate void UserInput();
     private UserInput userInput;
 
+    private bool showCuestick = false;
+
+    public AimAssistTool aimAssistTool;
+
     void Awake()
     {
         //FindObjectBalls();
@@ -55,6 +59,9 @@ public class GameController : MonoBehaviour
         }else{
             userInput = TouchControl;
         }
+
+        aimAssistTool = new AimAssistTool();
+        aimAssistTool.Open();
     }
 
     public void Init(){
@@ -104,6 +111,17 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             GameEvents.InvokeBasicEvent(GameBasicEvent.ReleaseCuestick);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!showCuestick){
+                showCuestick = true;
+                GameEvents.InvokeEvent(GameBasicEvent.ShowCuestick, cueball.transform.position);
+            }else{
+                showCuestick = false;
+                GameEvents.InvokeBasicEvent(GameBasicEvent.HideCuestick);
+            }
         }
         
     }

@@ -44,11 +44,20 @@ public class Cuestick : MonoBehaviour
     private float power = 0f;
     private readonly float maxPullDistance = 0.5f;
     private readonly float maxPower = 0.1f;
+    private readonly float trajectoryLineLength = 0.5f;
     private CueHitType cueHitType = CueHitType.Center;
+    private readonly float animationDuration = .2f;
+
+    /// <summary>
+    /// 击球杆的MeshRenderer组件
+    /// </summary>
+    private MeshRenderer meshRenderer;
 
     void Awake()
     {
         parent = transform.parent;
+        meshRenderer = GetComponent<MeshRenderer>();
+        alphaPerFrame = 1 / animationDuration;
     }
 
 
@@ -56,7 +65,8 @@ public class Cuestick : MonoBehaviour
     {
         Vector3 rotation = angle * Vector3.up;
         parent.Rotate(rotation, Space.World);
-        
+        DrawAimLine();
+
     }
 
     public void AimAt(Vector3 pos)
@@ -76,15 +86,6 @@ public class Cuestick : MonoBehaviour
 
         Debug.DrawLine(pos, pos + spinAdjustedForce, Color.red, 10);
         GameEvents.InvokeEvent(GameBasicEvent.Strike, pos, spinAdjustedForce);
-    }
-
-
-    public void OnEnable()
-    {
-        GameEvents.RegisterBasicEvent(GameBasicEvent.PullCuestick, PullCuestick);
-        GameEvents.RegisterBasicEvent(GameBasicEvent.ReleaseCuestick, ReleaseCuestick);
-        // 使用泛型事件系统注册带参数的事件
-        GameEvents.RegisterEvent<CueHitType>(GameBasicEvent.CueHitTypeChanged, CueHitTypeChanged);
     }
 
     private void CueHitTypeChanged(CueHitType cueHitType)
@@ -113,11 +114,116 @@ public class Cuestick : MonoBehaviour
         power = 0f;
     }
 
+    public void DrawAimLine(){
+        Physics.SphereCast(parent.position, Ball.radius, parent.right, out RaycastHit hit, 3, ~(1 << (int)GameLayers.Table));
+
+        Vector3 ghostBallPos = hit.point + Ball.radius * hit.normal;
+        Vector3 aimLineStartPos = parent.position;
+        Vector3 aimLineEndPos = ghostBallPos + (parent.position - ghostBallPos).normalized * Ball.radius;
+
+
+        Vector3 trajectoryLineStart;
+        Vector3 trajectoryLineEnd;
+
+        if (hit.collider.gameObject.layer == (int)GameLayers.Pockets)
+        {
+            trajectoryLineStart = Vector3.zero;
+            trajectoryLineEnd = Vector3.zero;
+        }
+        else
+        {
+            Vector3 lineDirection;
+            if (hit.collider.gameObject.layer == (int)GameLayers.Rails)
+            {
+                Vector3 reflectVector = Vector3.Reflect(hit.point - parent.position, hit.normal).normalized;
+                trajectoryLineStart = ghostBallPos + reflectVector * Ball.radius;
+                lineDirection = reflectVector;
+            }
+            else {
+                trajectoryLineStart = hit.point;
+                lineDirection = -hit.normal;
+            }
+
+
+            if (Physics.Raycast(trajectoryLineStart, lineDirection, 
+                out RaycastHit hit2, trajectoryLineLength, (1 << (int)GameLayers.Pockets) | (1 << (int)GameLayers.Rails)))
+            {
+                trajectoryLineEnd = hit2.point;
+            }
+            else
+            {
+                trajectoryLineEnd = trajectoryLineStart + lineDirection * trajectoryLineLength;
+            }
+        }
+
+        GameEvents.InvokeEvent(GameBasicEvent.DrawAimLine, ghostBallPos,aimLineStartPos, aimLineEndPos, trajectoryLineStart, trajectoryLineEnd);
+    }
+
+    public void OnEnable()
+    {
+        GameEvents.RegisterBasicEvent(GameBasicEvent.PullCuestick, PullCuestick);
+        GameEvents.RegisterBasicEvent(GameBasicEvent.ReleaseCuestick, ReleaseCuestick);
+        // 使用泛型事件系统注册带参数的事件
+        GameEvents.RegisterEvent<CueHitType>(GameBasicEvent.CueHitTypeChanged, CueHitTypeChanged);
+
+        GameEvents.RegisterEvent<Vector3>(GameBasicEvent.ShowCuestick, Show);
+        GameEvents.RegisterBasicEvent(GameBasicEvent.HideCuestick, Hide);
+    }
+
     public void OnDisable()
     {
         GameEvents.UnregisterBasicEvent(GameBasicEvent.PullCuestick, PullCuestick);
         GameEvents.UnregisterBasicEvent(GameBasicEvent.ReleaseCuestick, ReleaseCuestick);
         // 使用泛型事件系统注销带参数的事件
         GameEvents.UnregisterEvent<CueHitType>(GameBasicEvent.CueHitTypeChanged, CueHitTypeChanged);
+        GameEvents.UnregisterEvent<Vector3>(GameBasicEvent.ShowCuestick, Show);
+        GameEvents.UnregisterBasicEvent(GameBasicEvent.HideCuestick, Hide);
+    }
+
+
+
+    /// <summary>
+    /// 
+    /// 显示杆
+    /// </summary>
+    /// <param name="pos"></param>
+    public void Show(Vector3 pos){
+        parent.position = pos;
+        StopAllCoroutines();
+        StartCoroutine(ShowCoroutine());
+        DrawAimLine();
+    }
+
+    public void Hide(){
+        StopAllCoroutines();
+        StartCoroutine(HideCoroutine());
+    }
+
+    private IEnumerator HideCoroutine()
+    {
+        Color c = meshRenderer.material.color;
+        while (c.a > 0)
+        {
+            yield return null;
+            c.a -= Time.deltaTime * alphaPerFrame;
+            meshRenderer.material.color = c;
+        }
+
+        c.a = 0;
+        meshRenderer.material.color = c;
+    }
+    private float alphaPerFrame;
+    private IEnumerator ShowCoroutine()
+    {
+        Color c = meshRenderer.material.color;
+        while (c.a < 1)
+        {
+            yield return null;
+            c.a += Time.deltaTime * alphaPerFrame;
+            meshRenderer.material.color = c;
+        }
+
+        c.a = 1;
+        meshRenderer.material.color = c;
     }
 }

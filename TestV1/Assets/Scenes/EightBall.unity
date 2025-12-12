@@ -226,7 +226,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2279684552305315474, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279684552305315474, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
+      propertyPath: m_TagString
+      value: GhostBall
       objectReference: {fileID: 0}
     - target: {fileID: 3962091504648908511, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
       propertyPath: m_LocalPosition.x
@@ -271,6 +275,14 @@ PrefabInstance:
     - target: {fileID: 4173969093482095990, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
       propertyPath: m_TagString
       value: Cuestick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029518973379628443, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
+      propertyPath: m_TagString
+      value: TrajectoryLine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384014759958020032, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
+      propertyPath: m_TagString
+      value: AimLine
       objectReference: {fileID: 0}
     - target: {fileID: 8626594192179109769, guid: 53655d8fdc8a71146b9815d27f436e38, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,6 +9,9 @@ TagManager:
   - Cueball
   - Ball
   - Rack
+  - AimLine
+  - TrajectoryLine
+  - GhostBall
   layers:
   - Default
   - TransparentFX

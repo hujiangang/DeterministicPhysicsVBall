@@ -309,6 +309,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\MobileMeshTerrainPairHandler.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\TwoEntity\JointLimits\DistanceLimit.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\DataStructures\RawValueList.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\AimAssistTool.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\IXDImpulseConstraint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUik\IKPointOnPlaneJoint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Paths\CurveEndpointBehavior.cs" />

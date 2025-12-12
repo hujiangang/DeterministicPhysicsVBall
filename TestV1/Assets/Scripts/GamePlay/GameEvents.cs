@@ -9,6 +9,9 @@ public enum GameBasicEvent
     ReleaseCuestick,
     CueHitTypeChanged,
     Strike,
+    DrawAimLine,
+    ShowCuestick,
+    HideCuestick,
 }
 
 /// <summary>
@@ -233,4 +236,38 @@ public static class GameEvents
             (action as Action<T1, T2, T3>)?.Invoke(arg1, arg2, arg3);
         }
     }
+
+
+    public static void InvokeEvent<T1, T2, T3, T4,T5>(GameBasicEvent eventName, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+    {
+        if (_genericEvents.TryGetValue(eventName, out var action))
+        {
+            (action as Action<T1, T2, T3, T4,T5>)?.Invoke(arg1, arg2, arg3, arg4, arg5);    
+        }
+    }
+
+    public static void UnregisterEvent<T1, T2, T3, T4,T5>(GameBasicEvent eventName, Action<T1, T2, T3, T4, T5> action)
+    {
+        if (_genericEvents.ContainsKey(eventName))
+        {
+            _genericEvents[eventName] = Delegate.Remove(_genericEvents[eventName], action);
+            if (_genericEvents[eventName] == null)
+            {
+                _genericEvents.Remove(eventName);
+            }
+        }
+    }
+
+     public static void RegisterEvent<T1, T2, T3, T4,T5>(GameBasicEvent eventName, Action<T1, T2, T3, T4, T5> action)
+    {
+        if (!_genericEvents.ContainsKey(eventName))
+        {
+            _genericEvents.Add(eventName, action);
+        }
+        else
+        {
+            _genericEvents[eventName] = Delegate.Combine(_genericEvents[eventName], action);
+        }
+    }
+
 }
