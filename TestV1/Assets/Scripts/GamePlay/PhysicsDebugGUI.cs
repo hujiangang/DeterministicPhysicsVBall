@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +10,7 @@ using UnityEngine;
 public class PhysicsDebugGUI : MonoBehaviour
 {
     // GUI开关
-    private bool _showGUI = true;
+    private bool _showGUI = false;
     
     // 当前选中的面板索引
     private int _currentPanel = 0;
@@ -18,37 +19,22 @@ public class PhysicsDebugGUI : MonoBehaviour
     private int _panelCount = 3;
     
     // 面板标题
-    private string[] _panelTitles = { "球物理参数", "桌子物理参数", "库边物理参数" };
+    private readonly string[] _panelTitles = { "球物理参数", "桌子物理参数", "库边物理参数" };
+
+    public Dictionary<GameLayers, int> _physicsParamsDict = new(){
+        {GameLayers.Balls, 0},
+        {GameLayers.Table, 1},
+        {GameLayers.Rails, 2},
+    };
     
     // 物理参数数组，每个面板对应一组参数
     private PhysicsParams[] _physicsParams;
     
     // GUI位置和大小 - 大幅增大窗口尺寸以适应超大字体
-    private Rect _windowRect = new Rect(20, 20, 550, 700);
+    private Rect _windowRect = new(20, 20, 550, 700);
     
     // 滚动位置
     private Vector2 _scrollPosition = Vector2.zero;
-    
-    // 物理参数结构体
-    [System.Serializable]
-    public struct PhysicsParams
-    {
-        public float staticFriction;     // 静态摩擦力
-        public float dynamicFriction;     // 动摩擦力
-        public float restitution;         // 弹性系数
-        public float linearDamping;       // 线速度衰减系数
-        public float angularDamping;      // 角速度衰减系数
-        
-        // 默认构造函数
-        public PhysicsParams(float staticFric, float dynamicFric, float rest, float linearDamp, float angularDamp)
-        {
-            staticFriction = staticFric;
-            dynamicFriction = dynamicFric;
-            restitution = rest;
-            linearDamping = linearDamp;
-            angularDamping = angularDamp;
-        }
-    }
     
     private void Awake()
     {
@@ -61,22 +47,38 @@ public class PhysicsDebugGUI : MonoBehaviour
         _physicsParams[2] = new PhysicsParams(0.3f, 0.2f, 0.9f, 0.02f, 0.05f);   // 面板3：高级设置
     }
     
+    /// <summary>
+    /// 初始化物理参数，从物理实体管理器获取当前参数并更新面板.
+    /// </summary>
+    private void InitializePhysicsParams()
+    {
+        foreach (var item in _physicsParamsDict)
+        {
+            if (!PhyEntityManager.Instance.GetPhysicsParams(item.Key, out PhysicsParams physicsParams)) continue;
+            
+            // 更新面板参数
+            _physicsParams[item.Value] = physicsParams;
+
+            Debug.Log($"层: {item.Key}");
+            Debug.Log($"静态摩擦力: {physicsParams.staticFriction:F2}");
+            Debug.Log($"动摩擦力: {physicsParams.dynamicFriction:F2}");
+            Debug.Log($"弹性系数: {physicsParams.restitution:F2}");
+            Debug.Log($"线速度衰减: {physicsParams.linearDamping:F2}");
+            Debug.Log($"角速度衰减: {physicsParams.angularDamping:F2}");
+        }
+    }
+
+
     private void Update()
     {
         // 按G键开关GUI
         if (Input.GetKeyDown(KeyCode.G))
         {
             _showGUI = !_showGUI;
-        }
-        
-        // 按左右箭头键切换面板
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            _currentPanel = Mathf.Max(0, _currentPanel - 1);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            _currentPanel = Mathf.Min(_panelCount - 1, _currentPanel + 1);
+            if (_showGUI)
+            {
+                InitializePhysicsParams();
+            }
         }
     }
     
@@ -361,6 +363,14 @@ public class PhysicsDebugGUI : MonoBehaviour
         Debug.Log($"线速度衰减: {currentParams.linearDamping:F2}");
         Debug.Log($"角速度衰减: {currentParams.angularDamping:F2}");
         Debug.Log("参数应用成功！");
+
+
+        foreach (var (layer, index) in _physicsParamsDict){
+            if (index == _currentPanel){
+                PhyEntityManager.Instance.SetPhysicsParams(layer, currentParams);
+                break;
+            }
+        }
         
         // 在实际项目中，这里应该将参数应用到真实的物理系统
         // 例如：

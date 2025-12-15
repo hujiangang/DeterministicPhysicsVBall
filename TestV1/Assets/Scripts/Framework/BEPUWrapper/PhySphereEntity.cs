@@ -54,6 +54,8 @@ public class PhySphereEntity : PhyBaseEntity
             };
         }
 
+        PhyEntityManager.Instance.AddSelfToPhyWorld(phyEntity, gameObject.layer);
+
         Debug.Log($"{name} PhySphereEntity Start: radius={radius}, isStatic={this.isStatic}, mass={this.mass}, LinearDamping:{phyEntity.LinearDamping}, AngularDamping : {phyEntity.AngularDamping}");
 
         this.AddSelfToPhyWorld();

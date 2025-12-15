@@ -10,8 +10,7 @@ public enum GameLayers
     Rails = 7,
     Pockets = 8,
     TableBounds = 9,
-    Cueball = 10,
-    Balls = 11,
+    Balls = 10,
 }
 
 

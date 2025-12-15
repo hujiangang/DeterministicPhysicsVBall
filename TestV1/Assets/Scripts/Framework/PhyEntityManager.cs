@@ -2,6 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 物理参数结构体.
+/// </summary>
+[System.Serializable]
+public struct PhysicsParams
+{
+    public float staticFriction;     // 静态摩擦力
+    public float dynamicFriction;     // 动摩擦力
+    public float restitution;         // 弹性系数
+    public float linearDamping;       // 线速度衰减系数
+    public float angularDamping;      // 角速度衰减系数
+    
+    // 默认构造函数
+    public PhysicsParams(float staticFric, float dynamicFric, float rest, float linearDamp, float angularDamp)
+    {
+        staticFriction = staticFric;
+        dynamicFriction = dynamicFric;
+        restitution = rest;
+        linearDamping = linearDamp;
+        angularDamping = angularDamp;
+    }
+}
+
 /// <summary>
 /// 集中式物理实体管理器
 /// 替代将物理脚本挂载在每个对象上的方式
@@ -17,6 +41,8 @@ public class PhyEntityManager : MonoBehaviour
     /// 物理实体映射表：Unity对象 -> 物理实体数据
     /// </summary>
     private Dictionary<GameObject, PhyEntityData> phyEntityMap = new();
+
+    private Dictionary<int, List<BEPUphysics.Entities.Entity>> phyLayerEntity = new();
     
     /// <summary>
     /// 物理实体数据类
@@ -248,10 +274,79 @@ public class PhyEntityManager : MonoBehaviour
             // 添加到映射表
             phyEntityMap.Add(obj, data);
             
+            // 添加到图层映射表
+            if (!phyLayerEntity.ContainsKey(obj.layer))
+            {
+                phyLayerEntity[obj.layer] = new List<BEPUphysics.Entities.Entity>();
+            }
+            phyLayerEntity[obj.layer].Add(phyEntity);
+            
             // 同步初始变换
             SyncTransformToPhysics(obj, data);
         }
     }
+
+    /// <summary>
+    ///  将物理实体添加到指定图层.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="layer"></param>
+    public void AddSelfToPhyWorld(BEPUphysics.Entities.Entity entity, int layer)
+    {
+        Debug.Log($"将物理实体添加到图层: {layer}");
+
+        if (!phyLayerEntity.ContainsKey(layer))
+        {
+            phyLayerEntity[layer] = new List<BEPUphysics.Entities.Entity>();
+        }
+        phyLayerEntity[layer].Add(entity);
+    }
+
+    /// <summary>
+    /// 获取指定图层的物理参数.
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    public bool GetPhysicsParams(GameLayers layer, out PhysicsParams physicsParams)
+    {
+        physicsParams = default;
+        if (phyLayerEntity.TryGetValue((int)layer, out List<BEPUphysics.Entities.Entity> entities))
+        {
+            if (entities.Count == 0) return false;
+            physicsParams = new PhysicsParams()
+            {
+                dynamicFriction = (float)entities[0].Material.KineticFriction,
+                staticFriction = (float)entities[0].Material.StaticFriction,
+                restitution = (float)entities[0].Material.Bounciness,
+                linearDamping = (float)entities[0].LinearDamping,
+                angularDamping = (float)entities[0].AngularDamping,
+            };
+        }
+        return true;
+    }
+
+    /// <summary>
+    ///  设置指定图层的物理参数.
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <param name="physicsParams"></param>
+    public void SetPhysicsParams(GameLayers layer, PhysicsParams physicsParams)
+    {
+        if (phyLayerEntity.TryGetValue((int)layer, out List<BEPUphysics.Entities.Entity> entities))
+        {
+            if (entities.Count == 0) return;
+            
+            foreach (BEPUphysics.Entities.Entity entity in entities)
+            {
+                entity.Material.KineticFriction = (FixMath.NET.Fix64)physicsParams.dynamicFriction;
+                entity.Material.StaticFriction = (FixMath.NET.Fix64)physicsParams.staticFriction;
+                entity.Material.Bounciness = (FixMath.NET.Fix64)physicsParams.restitution;
+                entity.LinearDamping = (FixMath.NET.Fix64)physicsParams.linearDamping;
+                entity.AngularDamping = (FixMath.NET.Fix64)physicsParams.angularDamping;
+            }
+        }
+    }
+
     
     /// <summary>
     /// 同步Unity变换到物理变换

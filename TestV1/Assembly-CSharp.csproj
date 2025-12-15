@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseSystems\IBroadPhaseEntryOwner.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\DataStructures\TinyStructList.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\SingleEntity\SingleEntityLinearMotor.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\PhysicsDebugGUI.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\DataStructures\ReadOnlyDictionary.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Constraints\Collision\ConvexContactManifoldConstraint.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\CollisionTests\CollisionAlgorithms\GeneralConvexPairTester.cs" />
