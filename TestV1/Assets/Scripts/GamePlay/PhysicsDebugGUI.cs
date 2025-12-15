@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -163,14 +164,25 @@ public class PhysicsDebugGUI : MonoBehaviour
         // 结束滚动视图
         //GUILayout.EndScrollView();
         
-        // 绘制应用按钮 - 改用GUILayout
+        // 绘制应用和保存按钮 - 改用GUILayout
         GUILayout.Space(5);
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
+        
+        // 应用参数按钮
         if (GUILayout.Button("应用参数", GUILayout.Width(200), GUILayout.Height(60)))
         {
             ApplyParameters();
         }
+        
+        GUILayout.Space(20);
+        
+        // 保存参数按钮
+        if (GUILayout.Button("保存参数", GUILayout.Width(200), GUILayout.Height(60)))
+        {
+            SaveParametersToLocal();
+        }
+        
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         
@@ -401,5 +413,66 @@ public class PhysicsDebugGUI : MonoBehaviour
     public void SetCurrentPanel(int panelIndex)
     {
         _currentPanel = Mathf.Clamp(panelIndex, 0, _panelCount - 1);
+    }
+    
+    /// <summary>
+    /// 将当前面板的物理参数保存到本地JSON文件
+    /// </summary>
+    private void SaveParametersToLocal()
+    {
+        // 获取当前面板的参数
+        PhysicsParams currentParams = _physicsParams[_currentPanel];
+        
+        // 创建一个包含面板信息的保存数据结构
+        PhysicsParamsSaveData saveData = new()
+        {
+            panelName = _panelTitles[_currentPanel],
+            panelIndex = _currentPanel + 1,
+            saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            paramsData = currentParams
+        };
+        
+        // 将数据转换为JSON字符串
+        string jsonData = JsonUtility.ToJson(saveData, true);
+        
+        // 生成保存路径
+        string saveDirectory = Application.dataPath + "/../PhysicsParams/";
+        string saveFileName = $"PhysicsParams_{_panelTitles[_currentPanel]}_{System.DateTime.Now.ToString("yyyyMMdd_HHmmss")}.json";
+        string fullPath = saveDirectory + saveFileName;
+        
+        try
+        {
+            // 确保保存目录存在
+            System.IO.Directory.CreateDirectory(saveDirectory);
+            
+            // 写入JSON文件
+            System.IO.File.WriteAllText(fullPath, jsonData);
+            
+            // 打印保存成功信息
+            Debug.Log($"📁 参数保存成功！");
+            Debug.Log($"面板: {_panelTitles[_currentPanel]}");
+            Debug.Log($"文件路径: {fullPath}");
+            Debug.Log($"保存时间: {System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+            
+        }
+        catch (System.Exception e)
+        {
+            // 打印保存失败信息
+            Debug.LogError($"❌ 参数保存失败: {e.Message}");
+            Debug.LogError($"文件路径: {fullPath}");
+        }
+    }
+    
+    /// <summary>
+    /// 物理参数保存数据结构
+    /// 用于JSON序列化
+    /// </summary>
+    [System.Serializable]
+    private struct PhysicsParamsSaveData
+    {
+        public string panelName;         // 面板名称
+        public int panelIndex;           // 面板索引
+        public string saveTime;          // 保存时间
+        public PhysicsParams paramsData; // 物理参数数据
     }
 }
