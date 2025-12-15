@@ -90,10 +90,33 @@ public class PhysicsDebugGUI : MonoBehaviour
         GUI.skin.label.fontSize = 22;       // 标签字体大小
         GUI.skin.button.fontSize = 20;      // 按钮字体大小
         GUI.skin.toggle.fontSize = 20;      // 开关字体大小
+        GUI.skin.textField.fontSize = 22;    // 输入框字体大小
         
         // 设置字体样式，确保行高足够
         GUI.skin.label.fontStyle = FontStyle.Bold;
         GUI.skin.button.fontStyle = FontStyle.Bold;
+        
+        // 保存原始文本样式，避免影响其他GUI元素
+        GUIStyle originalTextFieldStyle = new GUIStyle(GUI.skin.textField);
+        
+        // 设置输入框样式 - 优化交互体验
+        GUI.skin.textField = new GUIStyle(originalTextFieldStyle)
+        {
+            alignment = TextAnchor.MiddleCenter,    // 文本居中
+            fixedHeight = 50,                      // 合适的高度
+            fontStyle = FontStyle.Bold,            // 加粗字体
+            padding = new RectOffset(10, 10, 10, 10), // 适当内边距
+            margin = new RectOffset(5, 5, 5, 5),    // 适当外边距
+            // 保持默认背景和边框，确保交互正常
+            normal = originalTextFieldStyle.normal,
+            active = originalTextFieldStyle.active,
+            focused = originalTextFieldStyle.focused,
+            hover = originalTextFieldStyle.hover,
+            onNormal = originalTextFieldStyle.onNormal,
+            onActive = originalTextFieldStyle.onActive,
+            onFocused = originalTextFieldStyle.onFocused,
+            onHover = originalTextFieldStyle.onHover
+        };
         
         // 绘制主窗口 - 大幅增大窗口尺寸以适应大字体
         _windowRect = GUI.Window(0, _windowRect, DrawWindow, "物理参数调节", GUI.skin.window);
@@ -188,44 +211,125 @@ public class PhysicsDebugGUI : MonoBehaviour
         GUI.skin.horizontalSlider = sliderStyle;
         GUI.skin.horizontalSliderThumb = sliderThumbStyle;
         
-        // 静态摩擦力 - 使用水平布局
+        // 静态摩擦力 - 使用水平布局，添加可输入文本框
         GUILayout.Space(20);
         GUILayout.BeginHorizontal();
         GUILayout.Label("静态摩擦力:", GUILayout.Width(150), GUILayout.Height(50));
-        currentParams.staticFriction = GUILayout.HorizontalSlider(currentParams.staticFriction, 0f, 1f, GUILayout.Height(30));
-        GUILayout.Label(currentParams.staticFriction.ToString("F2"), GUILayout.Width(80), GUILayout.Height(50));
+        
+        // 滑块控制
+        float tempStaticFriction = GUILayout.HorizontalSlider(currentParams.staticFriction, 0f, 1f, GUILayout.Height(30));
+        if (Mathf.Abs(tempStaticFriction - currentParams.staticFriction) > 0.001f)
+        {
+            currentParams.staticFriction = tempStaticFriction;
+        }
+        
+        // 可输入文本框 - 支持精确输入
+        string staticFrictionStr = GUILayout.TextField(currentParams.staticFriction.ToString("F3"), GUILayout.Width(100), GUILayout.Height(50));
+        if (float.TryParse(staticFrictionStr, out float staticFrictionValue))
+        {
+            // 限制数值范围 0-1
+            staticFrictionValue = Mathf.Clamp(staticFrictionValue, 0f, 1f);
+            if (Mathf.Abs(staticFrictionValue - currentParams.staticFriction) > 0.001f)
+            {
+                currentParams.staticFriction = staticFrictionValue;
+            }
+        }
         GUILayout.EndHorizontal();
         
         // 动摩擦力
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         GUILayout.Label("动摩擦力:", GUILayout.Width(150), GUILayout.Height(50));
-        currentParams.dynamicFriction = GUILayout.HorizontalSlider(currentParams.dynamicFriction, 0f, 1f, GUILayout.Height(30));
-        GUILayout.Label(currentParams.dynamicFriction.ToString("F2"), GUILayout.Width(80), GUILayout.Height(50));
+        
+        // 滑块控制
+        float tempDynamicFriction = GUILayout.HorizontalSlider(currentParams.dynamicFriction, 0f, 1f, GUILayout.Height(30));
+        if (Mathf.Abs(tempDynamicFriction - currentParams.dynamicFriction) > 0.001f)
+        {
+            currentParams.dynamicFriction = tempDynamicFriction;
+        }
+        
+        // 可输入文本框
+        string dynamicFrictionStr = GUILayout.TextField(currentParams.dynamicFriction.ToString("F3"), GUILayout.Width(100), GUILayout.Height(50));
+        if (float.TryParse(dynamicFrictionStr, out float dynamicFrictionValue))
+        {
+            dynamicFrictionValue = Mathf.Clamp(dynamicFrictionValue, 0f, 1f);
+            if (Mathf.Abs(dynamicFrictionValue - currentParams.dynamicFriction) > 0.001f)
+            {
+                currentParams.dynamicFriction = dynamicFrictionValue;
+            }
+        }
         GUILayout.EndHorizontal();
         
         // 弹性系数
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         GUILayout.Label("弹性系数:", GUILayout.Width(150), GUILayout.Height(50));
-        currentParams.restitution = GUILayout.HorizontalSlider(currentParams.restitution, 0f, 1f, GUILayout.Height(30));
-        GUILayout.Label(currentParams.restitution.ToString("F2"), GUILayout.Width(80), GUILayout.Height(50));
+        
+        // 滑块控制
+        float tempRestitution = GUILayout.HorizontalSlider(currentParams.restitution, 0f, 1f, GUILayout.Height(30));
+        if (Mathf.Abs(tempRestitution - currentParams.restitution) > 0.001f)
+        {
+            currentParams.restitution = tempRestitution;
+        }
+        
+        // 可输入文本框
+        string restitutionStr = GUILayout.TextField(currentParams.restitution.ToString("F3"), GUILayout.Width(100), GUILayout.Height(50));
+        if (float.TryParse(restitutionStr, out float restitutionValue))
+        {
+            restitutionValue = Mathf.Clamp(restitutionValue, 0f, 1f);
+            if (Mathf.Abs(restitutionValue - currentParams.restitution) > 0.001f)
+            {
+                currentParams.restitution = restitutionValue;
+            }
+        }
         GUILayout.EndHorizontal();
         
         // 线速度衰减系数
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         GUILayout.Label("线速度衰减:", GUILayout.Width(150), GUILayout.Height(50));
-        currentParams.linearDamping = GUILayout.HorizontalSlider(currentParams.linearDamping, 0f, 1f, GUILayout.Height(30));
-        GUILayout.Label(currentParams.linearDamping.ToString("F2"), GUILayout.Width(80), GUILayout.Height(50));
+        
+        // 滑块控制
+        float tempLinearDamping = GUILayout.HorizontalSlider(currentParams.linearDamping, 0f, 1f, GUILayout.Height(30));
+        if (Mathf.Abs(tempLinearDamping - currentParams.linearDamping) > 0.001f)
+        {
+            currentParams.linearDamping = tempLinearDamping;
+        }
+        
+        // 可输入文本框
+        string linearDampingStr = GUILayout.TextField(currentParams.linearDamping.ToString("F3"), GUILayout.Width(100), GUILayout.Height(50));
+        if (float.TryParse(linearDampingStr, out float linearDampingValue))
+        {
+            linearDampingValue = Mathf.Clamp(linearDampingValue, 0f, 1f);
+            if (Mathf.Abs(linearDampingValue - currentParams.linearDamping) > 0.001f)
+            {
+                currentParams.linearDamping = linearDampingValue;
+            }
+        }
         GUILayout.EndHorizontal();
         
         // 角速度衰减系数
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         GUILayout.Label("角速度衰减:", GUILayout.Width(150), GUILayout.Height(50));
-        currentParams.angularDamping = GUILayout.HorizontalSlider(currentParams.angularDamping, 0f, 1f, GUILayout.Height(30));
-        GUILayout.Label(currentParams.angularDamping.ToString("F2"), GUILayout.Width(80), GUILayout.Height(50));
+        
+        // 滑块控制
+        float tempAngularDamping = GUILayout.HorizontalSlider(currentParams.angularDamping, 0f, 1f, GUILayout.Height(30));
+        if (Mathf.Abs(tempAngularDamping - currentParams.angularDamping) > 0.001f)
+        {
+            currentParams.angularDamping = tempAngularDamping;
+        }
+        
+        // 可输入文本框
+        string angularDampingStr = GUILayout.TextField(currentParams.angularDamping.ToString("F3"), GUILayout.Width(100), GUILayout.Height(50));
+        if (float.TryParse(angularDampingStr, out float angularDampingValue))
+        {
+            angularDampingValue = Mathf.Clamp(angularDampingValue, 0f, 1f);
+            if (Mathf.Abs(angularDampingValue - currentParams.angularDamping) > 0.001f)
+            {
+                currentParams.angularDamping = angularDampingValue;
+            }
+        }
         GUILayout.EndHorizontal();
         
         // 恢复原始样式

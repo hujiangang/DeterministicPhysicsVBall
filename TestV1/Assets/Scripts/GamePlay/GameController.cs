@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum GameLayers
 {
@@ -46,10 +47,13 @@ public class GameController : MonoBehaviour
 
     private bool showCuestick = false;
 
+    private EventSystem es;
+
     public AimAssistTool aimAssistTool;
 
     void Awake()
     {
+        es = EventSystem.current;
         //FindObjectBalls();
         FindCuestickAndCueball();
         mainCam = Camera.main;
@@ -88,7 +92,13 @@ public class GameController : MonoBehaviour
 
     private void MouseControl(){
 
+        if (GUIUtility.hotControl != 0)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0)){
+            if (es.IsPointerOverGameObject()) return;
             HandlePointerDown(Input.mousePosition);
         }
 
