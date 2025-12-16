@@ -292,6 +292,7 @@
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\NarrowPhaseHelper.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\F64.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\NarrowPhaseSystems\Pairs\CompoundGroupPairHandler.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\Table.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\BroadPhaseEntries\MobileCollidables\MobileMeshCollidable.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUphysics\Entities\Prefabs\Cylinder.cs" />
     <Compile Include="Assets\Scripts\3rd\BEPU\BEPUutilities\Matrix2x2.cs" />

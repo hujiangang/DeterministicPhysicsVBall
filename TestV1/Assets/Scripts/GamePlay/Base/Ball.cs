@@ -8,7 +8,16 @@ public class Ball : PhySphereEntity
      protected override void Start()
     {
         base.Start();
+
+        Table.Instance.RegisterBall(this, transform.position);
     }
+
+    public void ResetPos(Vector3 pos)
+    {
+        transform.position = pos;
+        SyncPhyTransformWithUnityTransform();
+    }
+
 
     /// <summary>
     /// 获取表面最近的点.

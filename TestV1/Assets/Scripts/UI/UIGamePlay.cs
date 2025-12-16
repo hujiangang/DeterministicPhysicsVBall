@@ -120,6 +120,16 @@ public class UIGamePlay : MonoBehaviour
                         Debug.Log($"✅ 找到CueActionButton组件，父节点: {parentName}");
                     }
                 }
+
+                Transform buttonReRackTransform = parent.Find("ReRack");
+                if (buttonReRackTransform != null)
+                {
+                    if (buttonReRackTransform.TryGetComponent<Button>(out var rerackButton))
+                    {
+                        rerackButton.onClick.AddListener(ReRack);
+                        Debug.Log($"✅ 找到ReRack组件，父节点: {parentName}");
+                    }
+                }
                 
                 // 查找CueActionDes文本组件
                 Transform desTransform = parent.Find("CueActionDes");
@@ -393,6 +403,16 @@ public class UIGamePlay : MonoBehaviour
             _cueActionPanel.SetActive(!isActive);
             Debug.Log("杆法面板已" + (!isActive ? "显示" : "隐藏"));
         }
+    }
+
+
+    private void ReRack()
+    {
+
+        Debug.Log("还原球的位置");
+
+        // 触发重新rack事件
+        GameEvents.InvokeBasicEvent(GameBasicEvent.ReRack);
     }
     
     /// <summary>

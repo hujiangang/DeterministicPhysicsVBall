@@ -50,6 +50,8 @@ public class GameController : MonoBehaviour
 
     public AimAssistTool aimAssistTool;
 
+    public Table table;
+
     void Awake()
     {
         es = EventSystem.current;
@@ -65,6 +67,9 @@ public class GameController : MonoBehaviour
 
         aimAssistTool = new AimAssistTool();
         aimAssistTool.Open();
+
+        table = new Table();
+        table.Init();
     }
 
     public void Init(){

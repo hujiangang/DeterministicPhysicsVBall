@@ -12,6 +12,7 @@ public enum GameBasicEvent
     DrawAimLine,
     ShowCuestick,
     HideCuestick,
+    ReRack,
 }
 
 /// <summary>
