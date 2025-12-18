@@ -6,12 +6,23 @@ public class Table
 {
     public static Table Instance;
 
+    private Cueball cueball;
+
     public List<(Ball obj, Vector3 pos)> balls = new();
     public Table(){
         Instance = this;
     }
    
+    public Cueball GetCueball(){
+        return cueball;
+    }
+
+
     public void RegisterBall(Ball obj, Vector3 pos){
+        if (obj is Cueball cueball1)
+        {
+            cueball = cueball1;
+        }
         balls.Add((obj, pos));
     }
 

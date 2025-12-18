@@ -16,6 +16,14 @@ public class Ball : PhySphereEntity
     {
         transform.position = pos;
         SyncPhyTransformWithUnityTransform();
+        
+        // 重置物理实体的速度和角速度，解决重置后再次击球异常的问题
+        if (phyEntity != null)
+        {
+            phyEntity.LinearVelocity = BEPUutilities.Vector3.Zero;   // 重置线性速度
+            phyEntity.AngularVelocity = BEPUutilities.Vector3.Zero; // 重置角速度
+            Debug.Log($"重置球{name}的速度：LinearVelocity={phyEntity.LinearVelocity}, AngularVelocity={phyEntity.AngularVelocity}");
+        }
     }
 
 
@@ -24,7 +32,7 @@ public class Ball : PhySphereEntity
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public static Vector3 GetSurfacePoint(Vector3 pos)
+    public Vector3 GetSurfacePoint(Vector3 pos)
     {
         return col.ClosestPoint(pos);
     }

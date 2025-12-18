@@ -9,7 +9,7 @@ public class PhySphereEntity : PhyBaseEntity
 {
     public static float radius;
 
-    protected static SphereCollider col;
+    protected SphereCollider col;
 
     // Start is called before the first frame update
     protected virtual void Start()

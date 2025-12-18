@@ -43,7 +43,7 @@ public class Cuestick : MonoBehaviour
 
     private float power = 0f;
     private readonly float maxPullDistance = 0.5f;
-    private readonly float maxPower = 0.1f;
+    private readonly float maxPower = .1f;
     private readonly float trajectoryLineLength = 0.5f;
     private CueHitType cueHitType = CueHitType.Center;
     private readonly float animationDuration = .2f;
@@ -79,10 +79,11 @@ public class Cuestick : MonoBehaviour
         Vector3 rawForce = maxPower * power * parent.right;
         Vector3 offsetLocal = Ball.GetCueHitPosOffSet(cueHitType); 
         Vector3 pos = parent.TransformPoint(-Ball.radius, offsetLocal.y, -offsetLocal.x);
-        pos = Ball.GetSurfacePoint(pos);
-
+        pos = Table.Instance.GetCueball().GetSurfacePoint(pos);
         Vector3 spinAdjustedForce = rawForce + parent.position - pos;
         spinAdjustedForce = spinAdjustedForce.normalized * rawForce.magnitude;
+
+        Debug.Log($"Strike at pos:{pos}, impulse:{spinAdjustedForce}");
 
         Debug.DrawLine(pos, pos + spinAdjustedForce, Color.red, 10);
         GameEvents.InvokeEvent(GameBasicEvent.Strike, pos, spinAdjustedForce);
