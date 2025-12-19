@@ -53,4 +53,49 @@ public class BEPUPhyMgr : MonoBehaviour
     {
         this.space.Update();
     }
+
+    /// <summary>
+    /// 绘制调试信息，可视化物理碰撞体位置
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        // 只在编辑器模式下显示
+#if UNITY_EDITOR
+        if (this.space != null)
+        {
+            // 设置调试绘制颜色
+            Gizmos.color = Color.yellow;
+            
+            // 遍历所有物理实体
+            foreach (var entity in this.space.Entities)
+            {
+                if (entity != null)
+                {
+                    // 转换物理位置到Unity位置
+                    Vector3 unityPos = ConversionHelper.MathConverter.Convert(entity.position);
+                    
+                    // 绘制碰撞体位置指示器
+                    Gizmos.DrawWireSphere(unityPos, 0.1f);
+                    
+                    // 如果是球体，绘制球体碰撞体
+                    if (entity is BEPUphysics.Entities.Prefabs.Sphere sphereEntity)
+                    {
+                        Gizmos.DrawWireSphere(unityPos, (float)sphereEntity.Radius);
+                    }
+                    // 如果是立方体，绘制立方体碰撞体
+                    else if (entity is BEPUphysics.Entities.Prefabs.Box boxEntity)
+                    {
+                        // 绘制立方体碰撞体
+                        Gizmos.matrix = Matrix4x4.TRS(
+                            unityPos,
+                            ConversionHelper.MathConverter.Convert(entity.orientation),
+                            new Vector3((float)boxEntity.Width, (float)boxEntity.Height, (float)boxEntity.Length));
+                        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+                        Gizmos.matrix = Matrix4x4.identity;
+                    }
+                }
+            }
+        }
+#endif
+    }
 }
