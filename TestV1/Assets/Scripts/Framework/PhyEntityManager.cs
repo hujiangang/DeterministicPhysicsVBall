@@ -182,7 +182,10 @@ public class PhyEntityManager : MonoBehaviour
             {
                 // 多个BoxCollider，创建复合实体
                 List<BEPUphysics.CollisionShapes.CompoundShapeEntry> shapeEntries = new();
-                
+
+                // 注意：复合体的center应该是Vector3.zero
+                center = Vector3.zero;
+
                 foreach (BoxCollider boxCollider in boxColliders)
                 {
                     float width = boxCollider.size.x;
@@ -198,17 +201,30 @@ public class PhyEntityManager : MonoBehaviour
                     BEPUphysics.CollisionShapes.ConvexShapes.BoxShape boxShape = new(
                         (FixMath.NET.Fix64)width, (FixMath.NET.Fix64)height, (FixMath.NET.Fix64)length);
                     
-                    // 创建CompoundShapeEntry
-                    BEPUutilities.Vector3 localPosition = new(
-                        (FixMath.NET.Fix64)boxCollider.center.x, 
-                        (FixMath.NET.Fix64)boxCollider.center.y, 
-                        (FixMath.NET.Fix64)boxCollider.center.z);
+                    // 计算相对于父对象（obj）的局部变换
+                    // 需要考虑：boxCollider可能是在子对象上
+                    boxCollider.transform.GetLocalPositionAndRotation(out Vector3 localPosition, out Quaternion localRotation);
+
+                    // 加上collider自身的center偏移（相对于它的transform）
+                    localPosition += localRotation * boxCollider.center;
                     
-                    BEPUutilities.RigidTransform localTransform = new(localPosition);
+                    // 转换为BEPU格式
+                    BEPUutilities.Vector3 bepuLocalPosition = new(
+                        (FixMath.NET.Fix64)localPosition.x, 
+                        (FixMath.NET.Fix64)localPosition.y, 
+                        (FixMath.NET.Fix64)localPosition.z);
+                    
+                    BEPUutilities.Quaternion bepuRotation = new(
+                        (FixMath.NET.Fix64)localRotation.x,
+                        (FixMath.NET.Fix64)localRotation.y,
+                        (FixMath.NET.Fix64)localRotation.z,
+                        (FixMath.NET.Fix64)localRotation.w);
+                    
+                    BEPUutilities.RigidTransform localTransform = new(bepuLocalPosition, bepuRotation);
                     BEPUphysics.CollisionShapes.CompoundShapeEntry shapeEntry = new(boxShape, localTransform);
                     shapeEntries.Add(shapeEntry);
                 }
-                
+
                 // 创建复合实体
                 if (isStatic)
                 {
@@ -391,7 +407,7 @@ public class PhyEntityManager : MonoBehaviour
         
         // 同步位置
         Vector3 unityPos = obj.transform.position;
-        unityPos += data.Center;
+        unityPos += obj.transform.rotation * data.Center;
         data.PhyEntity.position = ConversionHelper.MathConverter.Convert(unityPos);
         
         // 同步旋转
@@ -410,14 +426,17 @@ public class PhyEntityManager : MonoBehaviour
         
         // 同步位置
         BEPUutilities.Vector3 phyPos = data.PhyEntity.position;
-        Vector3 unityPos = ConversionHelper.MathConverter.Convert(phyPos);
-        unityPos -= data.Center;
-        obj.transform.position = unityPos;
-        
+        Vector3 unityWorldPos = ConversionHelper.MathConverter.Convert(phyPos);
+
         // 同步旋转
         BEPUutilities.Quaternion phyRot = data.PhyEntity.orientation;
-        Quaternion unityRot = ConversionHelper.MathConverter.Convert(phyRot);
-        obj.transform.rotation = unityRot;
+        Quaternion unityWorldRot  = ConversionHelper.MathConverter.Convert(phyRot);
+
+        //unityWorldPos -= data.Center;
+        // 注意：这里要使用反向的旋转来减去center偏移
+        Vector3 adjustedPos = unityWorldPos - (unityWorldRot * data.Center);
+
+        obj.transform.SetPositionAndRotation(adjustedPos, unityWorldRot);   
     }
     
     /// <summary>

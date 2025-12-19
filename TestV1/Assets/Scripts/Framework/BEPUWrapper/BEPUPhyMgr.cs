@@ -54,6 +54,100 @@ public class BEPUPhyMgr : MonoBehaviour
         this.space.Update();
     }
 
+    private void DrawVisualModel()
+    {
+        // 绘制视觉模型边界用于比较
+        Gizmos.color = Color.blue;
+        
+        // 绘制所有BoxCollider
+        BoxCollider[] boxColliders = FindObjectsOfType<BoxCollider>();
+        foreach (var boxCollider in boxColliders)
+        {
+            // 获取世界位置（考虑center偏移）
+            Vector3 worldPosition = boxCollider.transform.position + 
+                                boxCollider.transform.rotation * boxCollider.center;
+            
+            // 获取世界旋转
+            Quaternion worldRotation = boxCollider.transform.rotation;
+            
+            // 保存当前矩阵
+            Matrix4x4 originalMatrix = Gizmos.matrix;
+            
+            // 设置变换矩阵
+            Gizmos.matrix = Matrix4x4.TRS(
+                worldPosition,
+                worldRotation,
+                Vector3.one
+            );
+            
+            // 绘制立方体（不考虑缩放）
+            Gizmos.DrawWireCube(Vector3.zero, boxCollider.size);
+            
+            // 恢复矩阵
+            Gizmos.matrix = originalMatrix;
+        }
+        
+        // 绘制所有SphereCollider
+        SphereCollider[] sphereColliders = FindObjectsOfType<SphereCollider>();
+        foreach (var sphereCollider in sphereColliders)
+        {
+            // 获取世界位置（考虑center偏移）
+            Vector3 worldPosition = sphereCollider.transform.position + 
+                                sphereCollider.transform.rotation * sphereCollider.center;
+            
+            // 绘制球体（不考虑缩放）
+            Gizmos.DrawWireSphere(worldPosition, sphereCollider.radius);
+        }
+    }
+
+    private void DrawEntityBounds()
+    {
+        // 设置调试绘制颜色
+        Gizmos.color = Color.yellow;
+        
+        // 遍历所有物理实体
+        foreach (var entity in this.space.Entities)
+        {
+            if (entity != null)
+            {
+                // 转换物理位置到Unity位置
+                Vector3 unityPos = ConversionHelper.MathConverter.Convert(entity.position);
+                
+                // 绘制碰撞体位置指示器
+                Gizmos.DrawWireSphere(unityPos, 0.1f);
+                
+                // 如果是球体，绘制球体碰撞体
+                if (entity is BEPUphysics.Entities.Prefabs.Sphere sphereEntity)
+                {
+                    Gizmos.DrawWireSphere(unityPos, (float)sphereEntity.Radius);
+                }
+                // 如果是立方体，绘制立方体碰撞体
+                else if (entity is BEPUphysics.Entities.Prefabs.Box boxEntity)
+                {
+                    // 保存当前矩阵
+                    Matrix4x4 originalMatrix = Gizmos.matrix;
+                    
+                    // 设置变换矩阵（位置和旋转，缩放为1）
+                    Gizmos.matrix = Matrix4x4.TRS(
+                        unityPos,
+                        ConversionHelper.MathConverter.Convert(entity.orientation),
+                        Vector3.one); // 注意：这里应该是Vector3.one
+                    
+                    // 绘制立方体碰撞体（传入实际的box尺寸）
+                    Vector3 boxSize = new(
+                        (float)boxEntity.Width, 
+                        (float)boxEntity.Height, 
+                        (float)boxEntity.Length);
+                    Gizmos.DrawWireCube(Vector3.zero, boxSize);
+                    
+                    // 恢复矩阵
+                    Gizmos.matrix = originalMatrix;
+                }
+            }
+        }
+    }
+
+
     /// <summary>
     /// 绘制调试信息，可视化物理碰撞体位置
     /// </summary>
@@ -63,38 +157,8 @@ public class BEPUPhyMgr : MonoBehaviour
 #if UNITY_EDITOR
         if (this.space != null)
         {
-            // 设置调试绘制颜色
-            Gizmos.color = Color.yellow;
-            
-            // 遍历所有物理实体
-            foreach (var entity in this.space.Entities)
-            {
-                if (entity != null)
-                {
-                    // 转换物理位置到Unity位置
-                    Vector3 unityPos = ConversionHelper.MathConverter.Convert(entity.position);
-                    
-                    // 绘制碰撞体位置指示器
-                    Gizmos.DrawWireSphere(unityPos, 0.1f);
-                    
-                    // 如果是球体，绘制球体碰撞体
-                    if (entity is BEPUphysics.Entities.Prefabs.Sphere sphereEntity)
-                    {
-                        Gizmos.DrawWireSphere(unityPos, (float)sphereEntity.Radius);
-                    }
-                    // 如果是立方体，绘制立方体碰撞体
-                    else if (entity is BEPUphysics.Entities.Prefabs.Box boxEntity)
-                    {
-                        // 绘制立方体碰撞体
-                        Gizmos.matrix = Matrix4x4.TRS(
-                            unityPos,
-                            ConversionHelper.MathConverter.Convert(entity.orientation),
-                            new Vector3((float)boxEntity.Width, (float)boxEntity.Height, (float)boxEntity.Length));
-                        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-                        Gizmos.matrix = Matrix4x4.identity;
-                    }
-                }
-            }
+            //DrawVisualModel();
+            DrawEntityBounds();
         }
 #endif
     }

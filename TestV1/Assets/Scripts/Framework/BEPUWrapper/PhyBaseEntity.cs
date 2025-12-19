@@ -5,12 +5,12 @@ using UnityEngine;
 public class PhyBaseEntity : MonoBehaviour
 {
 
-    protected BEPUphysics.Entities.Entity phyEntity = null;
-    protected Vector3 center = Vector3.zero;
+    public BEPUphysics.Entities.Entity phyEntity = null;
+    public Vector3 center = Vector3.zero;
     [SerializeField]
     protected float mass = 1;
 
-    protected bool isTrigger = false;
+    public bool isTrigger = false;
     protected PhysicMaterial phyMat = null;
 
     [SerializeField]
@@ -37,33 +37,35 @@ public class PhyBaseEntity : MonoBehaviour
             return;
         }
 
+        // 位置 - 修复：如果是触发器，不需要加center，直接使用模型位置
+        // 触发器需要与模型完全对齐，避免提前碰撞
+        transform.GetPositionAndRotation(out Vector3 currentPos, out Quaternion currentRot);
 
-        // 位置
-        Vector3 unityPos = this.transform.position;
-        unityPos += this.center;
-        this.phyEntity.position = ConversionHelper.MathConverter.Convert(unityPos);
-        // end
-
-        // 旋转
-        Quaternion rot = this.transform.rotation;
-        this.phyEntity.orientation = ConversionHelper.MathConverter.Convert(rot);
-        // end
+        // 对于非触发器，添加center偏移；对于触发器，直接使用模型位置
+        Vector3 physicsPos = currentPos;
+        if (!this.isTrigger && center != Vector3.zero)
+        {
+            physicsPos += currentRot * center;
+        }
+        
+        this.phyEntity.position = ConversionHelper.MathConverter.Convert(physicsPos);
+        this.phyEntity.orientation = ConversionHelper.MathConverter.Convert(currentRot);
     }
 
     public void SyncUnityTransformWithPhyTransform()
     {
         if (this.phyEntity == null) return;
 
-        // 位置.
-        BEPUutilities.Vector3 phyPos = this.phyEntity.position;
-        Vector3 unityPos = ConversionHelper.MathConverter.Convert(phyPos);
-        unityPos -= this.center;
-        this.transform.position = unityPos;
 
-        // 旋转.
-        BEPUutilities.Quaternion phyRot = this.phyEntity.orientation;
-        Quaternion unityRot = ConversionHelper.MathConverter.Convert(phyRot);
-        this.transform.rotation = unityRot;
+        Vector3 physicsPos = ConversionHelper.MathConverter.Convert(phyEntity.position);
+        Quaternion physicsRot = ConversionHelper.MathConverter.Convert(phyEntity.orientation);
+
+        Vector3 unityPos = physicsPos;
+        if (!isTrigger && center != Vector3.zero)
+        {
+            unityPos -= physicsRot * center;
+        }
+        transform.SetPositionAndRotation(unityPos, physicsRot);
     }
 
     public void LateUpdate()
